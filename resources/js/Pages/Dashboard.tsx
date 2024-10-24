@@ -10,6 +10,7 @@ import { Toaster } from "@/Components/ui/toaster";
 import { useState } from "react";
 import { CartDialog } from "@/Components/CartDialog";
 import { useCartStore } from "@/stores/useCartStore";
+import { useSearchStore } from "@/stores/useSearchStore";
 
 interface Product {
     id: number;
@@ -35,6 +36,7 @@ export default function Dashboard({ products, categories }: ProductsProps) {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const totalItems = useCartStore((state) => state.getTotalItems());
     const totalPrice = useCartStore((state) => state.getTotalPrice());
+    const { searchQuery, setSearchQuery } = useSearchStore();
 
     return (
         <AuthenticatedLayout>
@@ -49,7 +51,10 @@ export default function Dashboard({ products, categories }: ProductsProps) {
                                 <ShoppingCart className="mr-2 h-4 w-4" />
                                 Cart
                                 {totalItems > 0 && (
-                                    <Badge variant="destructive" className="ml-2">
+                                    <Badge
+                                        variant="destructive"
+                                        className="ml-2"
+                                    >
                                         {totalItems}
                                     </Badge>
                                 )}
@@ -63,7 +68,12 @@ export default function Dashboard({ products, categories }: ProductsProps) {
                 </div>
                 <div className="md:hidden space-y-4">
                     <div className="flex w-full items-center space-x-2">
-                        <Input type="search" placeholder="Search" />
+                        <Input
+                            type="search"
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                         <Button type="submit">
                             <Search className="w-4 h-4" />
                         </Button>

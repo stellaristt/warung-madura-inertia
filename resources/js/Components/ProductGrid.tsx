@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ProductCard } from "./ProductCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import { useSearchStore } from "@/stores/useSearchStore";
 
 interface Product {
     id: number;
@@ -22,8 +23,9 @@ export function ProductGrid({ initialProducts, categories }: ProductGridProps) {
     const [activeTab, setActiveTab] = useState(
         categories[0]?.category_name || ""
     );
+    const filterProducts = useSearchStore((state) => state.filterProducts);
 
-    const groupedProducts = products.reduce((acc, product) => {
+    const groupedProducts = filterProducts(products).reduce((acc, product) => {
         const categoryName = product.category.category_name;
 
         if (!acc[categoryName]) {

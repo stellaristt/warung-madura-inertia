@@ -552,10 +552,6 @@
                 {
                     "name": "Fruitcake",
                     "homepage": "https://fruitcake.nl"
-                },
-                {
-                    "name": "Barryvdh",
-                    "email": "barryvdh@gmail.com"
                 }
             ],
             "description": "Cross-origin resource sharing library for the Symfony HttpFoundation",

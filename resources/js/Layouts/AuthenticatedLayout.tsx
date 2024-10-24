@@ -1,12 +1,16 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { PropsWithChildren, ReactNode, useState } from 'react';
+import { usePage } from "@inertiajs/react";
+import { PropsWithChildren, ReactNode, useState } from "react";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+} from "@/Components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
+import { LogOut } from "lucide-react";
+import { useForm } from "@inertiajs/react"
 
 export default function Authenticated({
-    header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
@@ -14,9 +18,15 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+        const { post } = useForm()
+
+        const handleLogout = () => {
+          post(route('logout'))
+        }
+
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+            {/* <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -163,17 +173,40 @@ export default function Authenticated({
                         </div>
                     </div>
                 </div>
+            </nav> */}
+            <nav className="bg-blue-600 p-4 flex justify-between items-center">
+                <h1 className="text-white text-2xl font-bold ml-10">MAS POS</h1>
+                <div className="flex items-center gap-2 mr-10">
+                    <span className="text-white">{user.username}</span>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Avatar className="h-9 w-9">
+                                <AvatarImage
+                                    src="/placeholder-user.jpg"
+                                    alt="Avatar"
+                                />
+                                <AvatarFallback>R</AvatarFallback>
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuItem onClick={handleLogout}>
+                                <LogOut />
+                                <span>Log out</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </nav>
 
-            {header && (
+            {/* {header && (
                 <header className="bg-white shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>
-            )}
+            )} */}
 
-            <main>{children}</main>
+            <main className="bg-white">{children}</main>
         </div>
     );
 }

@@ -1,10 +1,9 @@
 import { Config } from 'ziggy-js';
 
 export interface User {
+    username: ReactNode;
     id: number;
     name: string;
-    email: string;
-    email_verified_at?: string;
 }
 
 export type PageProps<
